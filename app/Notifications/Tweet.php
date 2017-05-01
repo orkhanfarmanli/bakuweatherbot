@@ -13,8 +13,8 @@ class Tweet extends Notification
         return [TwitterChannel::class];
     }
 
-    public function toTwitter($notifiable)
+    public function toTwitter($weather)
     {
-        return new TwitterStatusUpdate("Oh shit it's working :D");
+        return new TwitterStatusUpdate($weather->title, [$weather->img]);
     }
 }
