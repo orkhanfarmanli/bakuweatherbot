@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Notifications\NotificationServiceProvider;
+use NotificationChannels\Twitter\TwitterServiceProvider;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
@@ -23,9 +26,9 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__ . '/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +81,21 @@ $app->singleton(
 |
  */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(Illuminate\Notifications\NotificationServiceProvider::class);
+$app->register(NotificationChannels\Twitter\TwitterServiceProvider::class);
+
+class_alias(NotificationChannels\Twitter\TwitterServiceProvider::class, 'TwitterServiceProvider');
+config(['services' => [
+    'twitter' => [
+        'consumer_key' => getenv('TWITTER_CONSUMER_KEY'),
+        'consumer_secret' => getenv('TWITTER_CONSUMER_SECRET'),
+        'access_token' => getenv('TWITTER_ACCESS_TOKEN'),
+        'access_secret' => getenv('TWITTER_ACCESS_SECRET'),
+    ],
+]]);
 
 /*
 |--------------------------------------------------------------------------

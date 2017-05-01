@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Weather;
+use App\Notifications\Tweet;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -9,8 +12,9 @@
 | It is a breeze. Simply tell Lumen the URIs it should respond to
 | and give it the Closure to call when that URI is requested.
 |
-*/
+ */
 
 $app->get('/', function () use ($app) {
-    return $app->version();
+    $weather = Weather::find(1);
+    $weather->notify(new Tweet());
 });
