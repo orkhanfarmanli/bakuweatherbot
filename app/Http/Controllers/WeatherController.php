@@ -22,11 +22,10 @@ class WeatherController extends Controller
     {
         $client = new Client();
 
-        $weather_data = $client->get('http://api.wunderground.com/api/' . env('WEATHER_BOT') . '/forecast10day/q/Azerbaijan/Baku.json');
+        $weather_data = $client->get('http://api.wunderground.com/api/' . env('WUNDERGROUND_API_KEY') . '/forecast10day/q/Azerbaijan/Baku.json');
         $weather_collection = collect(json_decode($weather_data->getBody()));
         $tendayforecast = $weather_collection->get('forecast')->txt_forecast->forecastday;
-        $today = $weather_collection[0]->fcttext_metric;
-        dd($today);
+        dd($tendayforecast);
 
         /*
         Weather
