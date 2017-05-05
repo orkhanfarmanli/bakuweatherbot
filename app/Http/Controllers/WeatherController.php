@@ -21,13 +21,12 @@ class WeatherController extends Controller
     public function weather()
     {
         $client = new Client();
-        $weather_data = $client->get('http://api.openweathermap.org/data/2.5/weather',
-            ['query' => [
-                'q' => 'Baku',
-                'units' => 'metric',
-                'appid' => env('WEATHER_API_ID'),
-            ]]);
+
+        $weather_data = $client->get('http://api.wunderground.com/api/' . env('WEATHER_BOT') . '/forecast10day/q/Azerbaijan/Baku.json');
         $weather_collection = collect(json_decode($weather_data->getBody()));
+        $tendayforecast = $weather_collection->get('forecast')->txt_forecast->forecastday;
+        $today = $weather_collection[0]->fcttext_metric;
+        dd($today);
 
         /*
         Weather
