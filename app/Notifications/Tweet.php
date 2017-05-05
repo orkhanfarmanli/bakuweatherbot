@@ -15,6 +15,7 @@ class Tweet extends Notification
 
     public function toTwitter($weather)
     {
-        return new TwitterStatusUpdate('Bu gün hava ' . $weather->condition . ', temperatur ' . $weather->temp . ' dərəcə selsi, küləyin sürətiysə ' . $weather->wind . 'm/s olacaq');
+        // return new TwitterStatusUpdate('Bu gün hava ' . $weather->condition . ', temperatur ' . $weather->temp . ' dərəcə selsi, küləyin sürətiysə ' . $weather->wind . 'm/s olacaq');
+        return new TwitterStatusUpdate($weather->condition);
     }
 }

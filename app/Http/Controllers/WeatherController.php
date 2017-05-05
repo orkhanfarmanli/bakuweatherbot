@@ -25,24 +25,10 @@ class WeatherController extends Controller
         $weather_data = $client->get('http://api.wunderground.com/api/' . env('WUNDERGROUND_API_KEY') . '/forecast10day/q/Azerbaijan/Baku.json');
         $weather_collection = collect(json_decode($weather_data->getBody()));
         $tendayforecast = $weather_collection->get('forecast')->txt_forecast->forecastday;
-        dd($tendayforecast);
-
-        /*
-        Weather
-        $weather['weather'][0]->main
-
-        Temperature
-        $weather['main']->temp
-
-        Wind
-        $weather['wind']->speed
-         */
-        // dd($weather['weather'][0]->main);
+        $today = $tendayforecast[0]->fcttext_metric;
 
         $weather = new Weather;
-        $weather->condition = $weather_collection['weather'][0]->main;
-        $weather->temp = $weather_collection['main']->temp;
-        $weather->wind = $weather_collection['wind']->speed;
+        $weather->condition = $today;
         $weather->notify(new Tweet());
     }
 }
