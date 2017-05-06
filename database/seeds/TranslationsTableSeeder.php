@@ -12,44 +12,124 @@ class TranslationsTableSeeder extends Seeder
     public function run()
     {
         DB::table('translations')->insert([
+            // Group 2XX
             [
                 'group_id' => 200,
-                'meaning' => '',
+                'meaning' => 'az yağışlı tufan',
             ],
             [
                 'group_id' => 201,
-                'meaning' => '',
+                'meaning' => 'yağışlı tufan',
             ],
             [
                 'group_id' => 202,
-                'meaning' => '',
+                'meaning' => 'şiddətli yağışlı tufan',
             ],
             [
                 'group_id' => 210,
-                'meaning' => '',
+                'meaning' => 'yüngül tufan',
             ],
             [
                 'group_id' => 211,
-                'meaning' => '',
+                'meaning' => 'tufan',
             ],
             [
                 'group_id' => 212,
-                'meaning' => '',
+                'meaning' => 'şiddətli tufan',
             ],
             [
                 'group_id' => 221,
-                'meaning' => '',
+                'meaning' => 'dağınıq tufan',
             ],
             [
                 'group_id' => 230,
-                'meaning' => '',
+                'meaning' => 'az çiskinli tufan',
             ],
             [
                 'group_id' => 231,
-                'meaning' => '',
+                'meaning' => 'çiskinli tufan',
             ],
             [
                 'group_id' => 232,
+                'meaning' => 'şiddətli çiskinli tufan',
+            ],
+            // Group 3XX
+            [
+                'group_id' => 300,
+                'meaning' => 'az miqdarda çiskin',
+            ],
+            [
+                'group_id' => 301,
+                'meaning' => 'çiskin',
+            ],
+            [
+                'group_id' => 302,
+                'meaning' => 'şiddətli çiskin',
+            ],
+            [
+                'group_id' => 310,
+                'meaning' => 'yağış',
+            ],
+            [
+                'group_id' => 311,
+                'meaning' => 'yağış',
+            ],
+            [
+                'group_id' => 312,
+                'meaning' => 'şiddətli yağış',
+            ],
+            [
+                'group_id' => 313,
+                'meaning' => 'şiddətli yağış',
+            ],
+
+            [
+                'group_id' => 314,
+                'meaning' => 'şiddətli yağış',
+            ],
+            [
+                'group_id' => 321,
+                'meaning' => 'şiddətli yağış',
+            ],
+            // Group 5XX
+            [
+                'group_id' => 500,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 501,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 502,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 503,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 504,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 511,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 520,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 521,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 522,
+                'meaning' => '',
+            ],
+            [
+                'group_id' => 531,
                 'meaning' => '',
             ],
         ]);

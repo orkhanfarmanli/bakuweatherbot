@@ -17,7 +17,6 @@ class CreateWeatherTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('data');
-            $table->string('img');
             $table->timestamps();
         });
     }

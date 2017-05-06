@@ -17,6 +17,7 @@ class CreateTranslationsTable extends Migration
             $table->increments('id');
             $table->integer('group_id');
             $table->string('meaning');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
