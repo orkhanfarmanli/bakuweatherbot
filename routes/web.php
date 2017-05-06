@@ -1,3 +1,3 @@
 <?php
 
-$app->get('/', 'WeatherController@weather');
+$app->get('/', 'WeatherController@weatherForecast');
