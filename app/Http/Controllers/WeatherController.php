@@ -85,7 +85,8 @@ class WeatherController extends Controller
 
     public function tweetWeather($data)
     {
-        $status = 'Halhazırda hava ' . $data['weather'][0]->main . ', temperatur ' . $data['main']->temp . ' dərəcə selsi, küləyin sürətiysə ' . $data['wind']->speed . 'm/s-dir.';
+        // $status = 'Halhazırda hava ' . $data['weather'][0]->main . ', temperatur ' . $data['main']->temp . ' dərəcə selsi, küləyin sürətiysə ' . $data['wind']->speed . 'm/s-dir.';
+        $status = 'Planning to finish translations';
         $statues = $this->connection->post("statuses/update", ["status" => $status]);
         return 'Tweeted';
     }
