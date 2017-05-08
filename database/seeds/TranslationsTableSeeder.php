@@ -94,43 +94,43 @@ class TranslationsTableSeeder extends Seeder
             // Group 5XX
             [
                 'group_id' => 500,
-                'meaning' => '',
+                'meaning' => 'az yağış',
             ],
             [
                 'group_id' => 501,
-                'meaning' => '',
+                'meaning' => 'yağış',
             ],
             [
                 'group_id' => 502,
-                'meaning' => '',
+                'meaning' => 'möhkəm yağış',
             ],
             [
                 'group_id' => 503,
-                'meaning' => '',
+                'meaning' => 'şiddətli yağış',
             ],
             [
                 'group_id' => 504,
-                'meaning' => '',
+                'meaning' => 'leysan',
             ],
             [
                 'group_id' => 511,
-                'meaning' => '',
+                'meaning' => 'dondurucu yağış',
             ],
             [
                 'group_id' => 520,
-                'meaning' => '',
+                'meaning' => 'yağış və ya leysan',
             ],
             [
                 'group_id' => 521,
-                'meaning' => '',
+                'meaning' => 'yağış və leysan',
             ],
             [
                 'group_id' => 522,
-                'meaning' => '',
+                'meaning' => 'şiddətli leysan',
             ],
             [
                 'group_id' => 531,
-                'meaning' => '',
+                'meaning' => 'dəli leysan',
             ],
         ]);
     }
