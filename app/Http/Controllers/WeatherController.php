@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Abraham\TwitterOAuth\TwitterOAuth;
 use App\Models\Weather;
 use App\Notifications\Tweet;
 use GuzzleHttp\Client;
@@ -15,7 +16,10 @@ class WeatherController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->connection = new TwitterOAuth(env('TWITTER_CONSUMER_KEY'), env('TWITTER_CONSUMER_SECRET'), env('TWITTER_ACCESS_TOKEN'), env('TWITTER_ACCESS_SECRET'));
+        $content = $this->connection->get("account/verify_credentials");
+
+        $this->client = new Client();
     }
 
     /**
@@ -26,8 +30,7 @@ class WeatherController extends Controller
 
     public function weatherForecast()
     {
-        $weather = $this->getWeeklyWeather();
-        return $weather;
+        $weather = $this->getCurrentWeather();
         $this->tweetWeather($weather);
     }
 
@@ -39,8 +42,8 @@ class WeatherController extends Controller
 
     public function getCurrentWeather()
     {
-        $client = new Client();
-        $weather_data = $client->get('http://api.openweathermap.org/data/2.5/weather/', [
+        $this->client = new Client();
+        $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/weather/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
                 'q' => 'Baku',
@@ -60,9 +63,8 @@ class WeatherController extends Controller
 
     public function getWeeklyWeather()
     {
-        $client = new Client();
 
-        $weather_data = $client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
+        $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
                 'q' => 'Baku',
@@ -70,6 +72,7 @@ class WeatherController extends Controller
                 'cnt' => 7,
             ],
         ]);
+
         $weather = collect(json_decode($weather_data->getBody()));
         return $weather;
     }
@@ -82,11 +85,9 @@ class WeatherController extends Controller
 
     public function tweetWeather($data)
     {
-        $weather = new Weather;
-        $weather->condition = $data['weather'][0]->main;
-        $weather->temp = $data['main']->temp;
-        $weather->wind = $data['wind']->speed;
-        $weather->notify(new Tweet());
+        $status = 'Halhazırda hava ' . $data['weather'][0]->main . ', temperatur ' . $data['main']->temp . ' dərəcə selsi, küləyin sürətiysə ' . $data['wind']->speed . 'm/s-dir.';
+        $statues = $this->connection->post("statuses/update", ["status" => $status]);
+        return 'Tweeted';
     }
 
 }
