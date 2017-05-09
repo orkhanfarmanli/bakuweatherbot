@@ -132,6 +132,182 @@ class TranslationsTableSeeder extends Seeder
                 'group_id' => 531,
                 'meaning' => 'dəli leysan',
             ],
+            [
+                'group_id' => 600,
+                'meaning' => 'yüngül qar',
+            ],
+            [
+                'group_id' => 601,
+                'meaning' => 'qar',
+            ],
+            [
+                'group_id' => 602,
+                'meaning' => 'güclü qar',
+            ],
+            [
+                'group_id' => 611,
+                'meaning' => 'sulu qar',
+            ],
+            [
+                'group_id' => 612,
+                'meaning' => 'möhkəm sulu qar',
+            ],
+            [
+                'group_id' => 615,
+                'meaning' => 'çiskin və qar qarışıq',
+            ],
+            [
+                'group_id' => 616,
+                'meaning' => 'yağış və qar',
+            ],
+            [
+                'group_id' => 620,
+                'meaning' => 'az şiddətli qar',
+            ],
+            [
+                'group_id' => 621,
+                'meaning' => 'şiddətli qar',
+            ],
+            [
+                'group_id' => 622,
+                'meaning' => 'dəli qar',
+            ],
+            [
+                'group_id' => 701,
+                'meaning' => 'duman',
+            ],
+            [
+                'group_id' => 711,
+                'meaning' => 'çən',
+            ],
+            [
+                'group_id' => 721,
+                'meaning' => 'zəif çən',
+            ],
+            [
+                'group_id' => 731,
+                'meaning' => 'qum və toz fırtınası',
+            ],
+            [
+                'group_id' => 741,
+                'meaning' => 'duman',
+            ],
+            [
+                'group_id' => 751,
+                'meaning' => 'qum',
+            ],
+            [
+                'group_id' => 761,
+                'meaning' => 'toz',
+            ],
+            [
+                'group_id' => 762,
+                'meaning' => 'vulkanik toz',
+            ],
+            [
+                'group_id' => 771,
+                'meaning' => 'fırtına',
+            ],
+            [
+                'group_id' => 781,
+                'meaning' => 'tufan',
+            ],
+            [
+                'group_id' => 800,
+                'meaning' => 'aydın',
+            ],
+            [
+                'group_id' => 801,
+                'meaning' => 'az buludlu',
+            ],
+            [
+                'group_id' => 802,
+                'meaning' => 'parçalı buludlu',
+            ],
+            [
+                'group_id' => 803,
+                'meaning' => 'buludlu',
+            ],
+            [
+                'group_id' => 804,
+                'meaning' => 'qapalı buludlu',
+            ],
+            [
+                'group_id' => 900,
+                'meaning' => 'qasırğa',
+            ],
+            [
+                'group_id' => 901,
+                'meaning' => 'tropikal tufan',
+            ],
+            [
+                'group_id' => 902,
+                'meaning' => 'qasırğa',
+            ],
+            [
+                'group_id' => 903,
+                'meaning' => 'soyuq',
+            ],
+            [
+                'group_id' => 904,
+                'meaning' => 'isti',
+            ],
+            [
+                'group_id' => 905,
+                'meaning' => 'küləkli',
+            ],
+            [
+                'group_id' => 906,
+                'meaning' => 'dolu',
+            ],
+            [
+                'group_id' => 951,
+                'meaning' => 'sakit',
+            ],
+            [
+                'group_id' => 952,
+                'meaning' => 'xəfif meh',
+            ],
+            [
+                'group_id' => 953,
+                'meaning' => 'mülayim meh',
+            ],
+            [
+                'group_id' => 954,
+                'meaning' => 'meh',
+            ],
+            [
+                'group_id' => 955,
+                'meaning' => 'xoş meh',
+            ],
+            [
+                'group_id' => 956,
+                'meaning' => 'güclü meh',
+            ],
+            [
+                'group_id' => 957,
+                'meaning' => 'güclü külək və ya fırtına',
+            ],
+            [
+                'group_id' => 958,
+                'meaning' => 'fırtına',
+            ],
+            [
+                'group_id' => 959,
+                'meaning' => 'şiddətli fırtına',
+            ],
+            [
+                'group_id' => 960,
+                'meaning' => 'tufan',
+            ],
+            [
+                'group_id' => 961,
+                'meaning' => 'şiddətli tufan',
+            ],
+            [
+                'group_id' => 962,
+                'meaning' => 'qasırğa',
+            ],
         ]);
     }
 }
