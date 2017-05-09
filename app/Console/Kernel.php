@@ -24,6 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('09:00');
+        $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('12:00');
+        $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('15:00');
+        $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('18:00');
+        $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('21:00');
     }
 }

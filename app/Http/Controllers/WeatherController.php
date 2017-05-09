@@ -26,24 +26,12 @@ class WeatherController extends Controller
     }
 
     /**
-     * Main handler function.
-     *
-     * @return void
-     */
-
-    public function weatherForecast()
-    {
-        $weather = $this->getCurrentWeather();
-        $this->tweetWeather($weather);
-    }
-
-    /**
      * A function for getting weather information.
      *
      * @return Eloquent collection
      */
 
-    public function getCurrentWeather()
+    public function currentWeather()
     {
         $this->client = new Client();
         $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/weather/', [
@@ -55,7 +43,7 @@ class WeatherController extends Controller
         ]);
 
         $weather = collect(json_decode($weather_data->getBody()));
-        return $weather;
+        $this->tweetWeather($weather);
     }
 
     /**
@@ -64,7 +52,7 @@ class WeatherController extends Controller
      * @return Eloquent collection
      */
 
-    public function getWeeklyWeather()
+    public function weeklyWeather()
     {
 
         $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
@@ -77,7 +65,7 @@ class WeatherController extends Controller
         ]);
 
         $weather = collect(json_decode($weather_data->getBody()));
-        return $weather;
+        $this->tweetWeather($weather);
     }
 
     /**
@@ -90,9 +78,8 @@ class WeatherController extends Controller
     {
         $weather_id = $data['weather'][0]->id;
         $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-        $status = "Hava şəraiti: " . $weather_condition . "\nTemperatur: " . $data['main']->temp . " dərəcə\nKüləyin sürəti: " . $data['wind']->speed . "m/s.";
+        $status = "Hava şəraiti: " . $weather_condition . "\nTemperatur: " . $data['main']->temp . "° \nKüləyin sürəti: " . $data['wind']->speed . "m/s.";
         $statues = $this->connection->post("statuses/update", ["status" => $status]);
-        return 'Tweeted';
     }
 
 }

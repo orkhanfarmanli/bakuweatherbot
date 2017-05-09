@@ -1,3 +1,5 @@
 <?php
 
-$app->get('/', 'WeatherController@weatherForecast');
+$app->get('/', function () use ($app) {
+    return view('welcome');
+});
