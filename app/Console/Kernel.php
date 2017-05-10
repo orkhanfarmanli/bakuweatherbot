@@ -29,5 +29,6 @@ class Kernel extends ConsoleKernel
         $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('15:00');
         $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('18:00');
         $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('21:00');
+        $schedule->call('App\Http\Controllers\WeatherController@currentWeather')->dailyAt('00:00');
     }
 }
