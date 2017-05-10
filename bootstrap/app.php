@@ -94,7 +94,7 @@ config(['services' => [
         'access_token' => getenv('TWITTER_ACCESS_TOKEN'),
         'access_secret' => getenv('TWITTER_ACCESS_SECRET'),
     ],
-    'app.timezone' => 'Asia/Baku',
+    'app.timezone' => 'Asia/Tbilisi',
 ]]);
 /*
 |--------------------------------------------------------------------------
