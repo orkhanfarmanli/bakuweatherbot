@@ -42,7 +42,8 @@ class WeatherController extends Controller
         ]);
 
         $weather = collect(json_decode($weather_data->getBody()));
-        $this->tweetWeather($weather);
+        return $weather;
+        $this->tweetWeather($weather, 'daily');
     }
 
     /**
@@ -51,20 +52,48 @@ class WeatherController extends Controller
      * @return Eloquent collection
      */
 
-    public function weeklyWeather()
+    public function firstPartOfTheWeek()
     {
         $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
                 'q' => 'Baku',
                 'units' => 'metric',
-                'cnt' => 7,
+                'cnt' => 4,
             ],
         ]);
 
         $weather = collect(json_decode($weather_data->getBody()));
-        // $date = gmdate("M d Y H:i:s", $weather['list'][1]->dt); ==> converting gmd date to human readable format
-        $this->tweetWeather($weather);
+        $weather_week = [];
+        for ($i = 1; $i < count($weather['list']); $i++) {
+            $weather_week[] = $weather['list'][$i];
+        }
+        $this->tweetWeather($weather_week, 'firstpart');
+    }
+
+    /**
+     * A function for getting weekly weather information.
+     *
+     * @return Eloquent collection
+     */
+
+    public function lastPartOfTheWeek()
+    {
+        $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
+            'query' => [
+                'appid' => env('OPENWEATHERMAP_API_KEY'),
+                'q' => 'Baku',
+                'units' => 'metric',
+                'cnt' => 5,
+            ],
+        ]);
+
+        $weather = collect(json_decode($weather_data->getBody()));
+        $weather_week = [];
+        for ($i = 1; $i < count($weather['list']); $i++) {
+            $weather_week[] = $weather['list'][$i];
+        }
+        $this->tweetWeather($weather_week, 'lastpart');
     }
 
     /**
@@ -73,12 +102,38 @@ class WeatherController extends Controller
      * @return void
      */
 
-    public function tweetWeather($data)
+    public function tweetWeather($data, $type)
     {
-        $weather_id = $data['weather'][0]->id;
-        $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-        $status = "Hava şəraiti: " . $weather_condition . "\nTemperatur: " . $data['main']->temp . "° \nKüləyin sürəti: " . $data['wind']->speed . "m/s.";
+        $status = '';
+        $weekdays = ['Be', 'Ça', 'Çə', 'Ca', 'Cm', 'Şə', 'Ba'];
+        switch ($type) {
+            case 'daily':
+                $weather_id = $data['weather'][0]->id;
+                $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
+                $status = "#Hava: " . $weather_condition . "\n#Temperatur: " . $data['main']->temp . "° \n#Külək: " . $data['wind']->speed . "m/s.";
+                break;
+            case 'firstpart':
+                $day = 0;
+                foreach ($data as $weather) {
+                    $weather_id = $weather->weather[0]->id;
+                    $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
+                    $averageTemp = ($weather->temp->min + $weather->temp->max) / 2;
+                    $status .= '#' . $weekdays[$day] . ": Hava: " . $weather_condition . ", Temp: " . intval($averageTemp) . "°\n";
+                    $day++;
+                }
+                break;
+            case 'lastpart':
+                $day = 3;
+                foreach ($data as $weather) {
+                    $weather_id = $weather->weather[0]->id;
+                    $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
+                    $averageTemp = ($weather->temp->min + $weather->temp->max) / 2;
+                    $status .= '#' . $weekdays[$day] . ": #Hava: " . $weather_condition . ", #Temp: " . intval($averageTemp) . "°\n";
+                    $day++;
+                }
+                break;
+        }
+
         $statues = $this->connection->post("statuses/update", ["status" => $status]);
     }
-
 }
