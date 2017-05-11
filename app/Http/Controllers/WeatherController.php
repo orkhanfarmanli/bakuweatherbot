@@ -33,7 +33,6 @@ class WeatherController extends Controller
 
     public function currentWeather()
     {
-        $this->client = new Client();
         $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/weather/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
@@ -54,7 +53,6 @@ class WeatherController extends Controller
 
     public function weeklyWeather()
     {
-
         $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
@@ -65,6 +63,7 @@ class WeatherController extends Controller
         ]);
 
         $weather = collect(json_decode($weather_data->getBody()));
+        // $date = gmdate("M d Y H:i:s", $weather['list'][1]->dt); ==> converting gmd date to human readable format
         $this->tweetWeather($weather);
     }
 
