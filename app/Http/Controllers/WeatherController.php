@@ -25,7 +25,7 @@ class WeatherController extends Controller
         $this->client = new Client();
     }
 
-    public function todaysWeather()
+    public function todaysWeatherForecast()
     {
         $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
             'query' => [
@@ -48,15 +48,13 @@ class WeatherController extends Controller
 
     public function currentWeather()
     {
-        $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/weather/', [
+        $weather = $this->weather('http://api.openweathermap.org/data/2.5/weather/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
                 'q' => 'Baku',
                 'units' => 'metric',
             ],
         ]);
-
-        $weather = collect(json_decode($weather_data->getBody()));
         $this->tweetWeather($weather, 'daily');
     }
 
@@ -68,7 +66,7 @@ class WeatherController extends Controller
 
     public function firstPartOfTheWeek()
     {
-        $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
+        $weather = $this->weather('http://api.openweathermap.org/data/2.5/forecast/daily/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
                 'q' => 'Baku',
@@ -77,11 +75,11 @@ class WeatherController extends Controller
             ],
         ]);
 
-        $weather = collect(json_decode($weather_data->getBody()));
         $weather_week = [];
         for ($i = 1; $i < count($weather['list']); $i++) {
             $weather_week[] = $weather['list'][$i];
         }
+
         $this->tweetWeather($weather_week, 'firstpart');
     }
 
@@ -93,7 +91,7 @@ class WeatherController extends Controller
 
     public function lastPartOfTheWeek()
     {
-        $weather_data = $this->client->get('http://api.openweathermap.org/data/2.5/forecast/daily/', [
+        $weather = $this->weather('http://api.openweathermap.org/data/2.5/forecast/daily/', [
             'query' => [
                 'appid' => env('OPENWEATHERMAP_API_KEY'),
                 'q' => 'Baku',
@@ -102,12 +100,24 @@ class WeatherController extends Controller
             ],
         ]);
 
-        $weather = collect(json_decode($weather_data->getBody()));
         $weather_week = [];
         for ($i = 1; $i < count($weather['list']); $i++) {
             $weather_week[] = $weather['list'][$i];
         }
         $this->tweetWeather($weather_week, 'lastpart');
+    }
+
+    /**
+     * A method for getting the weather data
+     * @param String $url, Array $params
+     * @return  Eloquent $weather
+     */
+
+    public function weather($url, $params)
+    {
+        $weather_data = $this->client->get($url, $params);
+        $weather = collect(json_decode($weather_data->getBody()));
+        return $weather;
     }
 
     /**
@@ -124,14 +134,12 @@ class WeatherController extends Controller
             case 'daily':
                 $weather_id = $data['weather'][0]->id;
                 $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-                $tweet = "#Hava: " . $weather_condition . "\n#Temperatur: " . $data['main']->temp . "° \n#Külək: " . $data['wind']->speed . "m/s.";
+                $tweet = "Hava: " . $weather_condition . "\nTemperatur: " . intval($data['main']->temp) . "°C \nKülək: " . intval($data['wind']->speed) . "m/s.";
                 break;
             case 'todaysWeather':
                 $weather_id = $data->weather[0]->id;
                 $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-                $tweet = "Bu gün " . $weather_condition . " olacaq
-        \nSəhər: " . intval($data->temp->morn) . "°\nGünorta: " . intval($data->temp->day) . "°\nAxşam: " . intval($data->temp->eve) . "°\nGecə: " . intval($data->temp->night) . "°
-        \nKülək: " . intval($data->speed) . "m/s.";
+                $tweet = "Bu gün " . $weather_condition . " olacaq\n🌄Səhər: " . intval($data->temp->morn) . "°\n☀️Günorta: " . intval($data->temp->day) . "°C\n🌆Axşam: " . intval($data->temp->eve) . "°\n🌃Gecə: " . intval($data->temp->night) . "°C\nKülək: " . intval($data->speed) . "m/s.";
                 break;
             case 'firstpart':
                 $day = 0;
@@ -139,7 +147,7 @@ class WeatherController extends Controller
                     $weather_id = $weather->weather[0]->id;
                     $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
                     $averageTemp = ($weather->temp->min + $weather->temp->max) / 2;
-                    $tweet .= '#' . $weekdays[$day] . ": Hava: " . $weather_condition . ", Temp: " . intval($averageTemp) . "°\n";
+                    $tweet .= $weekdays[$day] . ": Hava: " . $weather_condition . ", Temp: " . intval($averageTemp) . "°C\n";
                     $day++;
                 }
                 break;
@@ -149,7 +157,7 @@ class WeatherController extends Controller
                     $weather_id = $weather->weather[0]->id;
                     $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
                     $averageTemp = ($weather->temp->min + $weather->temp->max) / 2;
-                    $tweet .= '#' . $weekdays[$day] . ": #Hava: " . $weather_condition . ", #Temp: " . intval($averageTemp) . "°\n";
+                    $tweet .= $weekdays[$day] . ": Hava: " . $weather_condition . ", Temp: " . intval($averageTemp) . "°\n";
                     $day++;
                 }
                 break;
