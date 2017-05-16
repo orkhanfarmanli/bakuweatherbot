@@ -139,7 +139,7 @@ class WeatherController extends Controller
             case 'todaysWeather':
                 $weather_id = $data->weather[0]->id;
                 $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-                $tweet = "Bu gün " . $weather_condition . " olacaq\n🌄Səhər: " . intval($data->temp->morn) . "°\n☀️Günorta: " . intval($data->temp->day) . "°C\n🌆Axşam: " . intval($data->temp->eve) . "°\n🌃Gecə: " . intval($data->temp->night) . "°C\nKülək: " . intval($data->speed) . "m/s.";
+                $tweet = "Bu gün " . $weather_condition . " olacaq. Küləyin sürəti: " . intval($data->speed) . "m/s.\n\n🌄Səhər: " . intval($data->temp->morn) . "°C\n☀️Günorta: " . intval($data->temp->day) . "°C\n🌆Axşam: " . intval($data->temp->eve) . "°C\n🌃Gecə: " . intval($data->temp->night) . "°C";
                 break;
             case 'firstpart':
                 $day = 0;
