@@ -28,6 +28,6 @@ class CreteEmojisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('weather_emojis');
+        Schema::dropIfExists('emojis');
     }
 }
