@@ -4,4 +4,5 @@ $app->get('/', function () {
     return view('welcome');
 });
 
-$app->get('/test', 'WeatherController@todaysWeatherForecast');
+$app->get('/testforecast', 'WeatherController@todaysWeatherForecast');
+$app->get('/testcurrent', 'WeatherController@currentWeather');

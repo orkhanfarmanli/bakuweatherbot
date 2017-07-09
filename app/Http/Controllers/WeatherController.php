@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
-use App\Models\Translation;
 use App\Models\Weather;
-use App\Notifications\Tweet;
 use GuzzleHttp\Client;
 
 class WeatherController extends Controller
@@ -133,21 +131,21 @@ class WeatherController extends Controller
         switch ($type) {
             case 'daily':
                 $weather_id = $data['weather'][0]->id;
-                $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-                $tweet = "Hava: " . $weather_condition . "\nTemp: " . intval($data['main']->temp) . "°C \nKülək: " . intval($data['wind']->speed) . "m/s.";
+                $weather = Weather::where('group_id', '=', $weather_id)->first();
+                $tweet = "Hal-hazırda:\n\n" . $weather->emoji . "Hava: " . $weather->meaning . "\n🌡 Temp: " . intval($data['main']->temp) . "°C \n💨 Külək: " . intval($data['wind']->speed) . "m/s.";
                 break;
             case 'todaysWeather':
                 $weather_id = $data->weather[0]->id;
-                $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
-                $tweet = "Bu gün hava " . $weather_condition . " olacaq. Küləyin sürəti: " . intval($data->speed) . "m/s.\n\n🌅 Səhər: " . intval($data->temp->morn) . "°C\n🏙 Günorta: " . intval($data->temp->day) . "°C\n🌆 Axşam: " . intval($data->temp->eve) . "°C\n🌃 Gecə: " . intval($data->temp->night) . "°C";
+                $weather = Weather::where('group_id', '=', $weather_id)->first()->meaning;
+                $tweet = "Bu gün hava " . $weather . " olacaq. Küləyin sürəti " . intval($data->speed) . "m/s olacağı gözlənilir.\n\n🌅 Səhər: " . intval($data->temp->morn) . "°C\n🏙 Günorta: " . intval($data->temp->day) . "°C\n🌆 Axşam: " . intval($data->temp->eve) . "°C\n🌃 Gecə: " . intval($data->temp->night) . "°C";
                 break;
             case 'firstpart':
                 $day = 0;
                 foreach ($data as $weather) {
                     $weather_id = $weather->weather[0]->id;
-                    $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
+                    $weather = Weather::where('group_id', '=', $weather_id)->first()->meaning;
                     $averageTemp = ($weather->temp->min + $weather->temp->max) / 2;
-                    $tweet .= $weekdays[$day] . ": Hava: " . $weather_condition . ", Temp: " . intval($averageTemp) . "°C\n";
+                    $tweet .= $weekdays[$day] . ": Hava: " . $weather . ", Temp: " . intval($averageTemp) . "°C\n";
                     $day++;
                 }
                 break;
@@ -155,12 +153,16 @@ class WeatherController extends Controller
                 $day = 3;
                 foreach ($data as $weather) {
                     $weather_id = $weather->weather[0]->id;
-                    $weather_condition = Translation::where('group_id', '=', $weather_id)->first()->meaning;
+                    $weather = Weather::where('group_id', '=', $weather_id)->first()->meaning;
                     $averageTemp = ($weather->temp->min + $weather->temp->max) / 2;
-                    $tweet .= $weekdays[$day] . ": Hava: " . $weather_condition . ", Temp: " . intval($averageTemp) . "°\n";
+                    $tweet .= $weekdays[$day] . ": Hava: " . $weather . ", Temp: " . intval($averageTemp) . "°\n";
                     $day++;
                 }
                 break;
+        }
+
+        if (env('APP_DEBUG') == true) {
+            dd($tweet);
         }
 
         $this->connection->post("statuses/update", ["status" => $tweet]);
