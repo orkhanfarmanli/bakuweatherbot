@@ -132,7 +132,7 @@ class WeatherController extends Controller
             case 'daily':
                 $weather_id = $data['weather'][0]->id;
                 $weather = Weather::where('group_id', '=', $weather_id)->first();
-                $tweet = "Hal-hazırda:\n\n" . $weather->emoji . "Hava: " . $weather->meaning . "\n🌡 Temp: " . intval($data['main']->temp) . "°C \n💨 Külək: " . intval($data['wind']->speed) . "m/s.";
+                $tweet = "Hal-hazırda:\n\n" . $weather->emoji . " Hava: " . $weather->meaning . "\n🌡 Temp: " . intval($data['main']->temp) . "°C \n💨 Külək: " . intval($data['wind']->speed) . "m/s.";
                 break;
             case 'todaysWeather':
                 $weather_id = $data->weather[0]->id;
